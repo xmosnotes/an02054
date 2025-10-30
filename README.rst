@@ -20,7 +20,9 @@ Summary
 This app note demonstrates how a small XCORE.AI device (a 6x6mm
 QF60 part) can be used to drive dual 100 Mbit ethernet. This platform
 can be used to, for example, implement redundancy or indeed a limited
-daisy-chain.
+daisy-chain. This note focusses on the hardware design; the only
+software provided is the drivers for the hardware. The main program is
+empty otherwise.
 
 ********
 Features
