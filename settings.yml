@@ -1,7 +1,7 @@
 # This file relates to internal XMOS infrastructure and should be ignored by external users
 
 an_number: an02054
-an_number_upper: AN0XXXX
+an_number_upper: AN02054
 project: '{{an_number}}'
 title: '{{an_number_upper}}: Using an XCORE.AI QF60 to make a dual-ethernet device'
 version: 1.0.0
@@ -10,7 +10,7 @@ documentation:
   exclude_patterns_path: doc/exclude-patterns.inc
   root_doc: doc/rst/an02054.rst
   linkcheck_ignore_regex: [".*an0000.*"]
-  cognidox_part_number: XM-000000-AN
+  cognidox_part_number: XM-015417-AN
   pdfs:
     doc/rst/an02054.rst:
       pdf_title: '{{title}}'
@@ -22,5 +22,5 @@ documentation:
       pdf_short: yes
 
 software:
-  cognidox_part_number: XM-000000-SM
+  cognidox_part_number: XM-015418-SM
 

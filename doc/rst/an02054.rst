@@ -1,56 +1,249 @@
-##############################
 AN02054: Using an XCORE.AI QF60 to make a dual-ethernet device
-##############################
+==============================================================
 
-************
-Introduction
-************
+This application note describes the design of a board that with a single
+XCORE can control two ethernet PHYs and a codec. The board is shown in
+:numref:`photo`. The purpose of this is to show how a complex system can be
+compressed into a limited number of GPIO pins
 
-Introduction text
+.. _photo:
 
-***********
-Section one
-***********
+.. figure:: ../images/photo.*
+    :width: 80%
 
-Section one text
+    xcore.ai Dual 100 Mbit Ethernet.
 
-Sub-section
-===========
+All but one of the pins are being used in this device; stretching the
+capability of the device. Some pins are being shared on ports where it
+would be more convenient to use their own ports, in particular I2C and
+reset pins. On a production design, one would not bring out the high-speed
+debug link, and free up the pins for I2C, separate codec reset and, for
+example, a codec mute.
 
-Sub-section text
+On this example board we have integrated a stereo codec, requiring 5 serial
+signals. Instead of a codec one can imagine bringing out a SPI or I2S bus
+to integrate, for example, sensors.
 
-Another sub-section
-===================
+This is a demonstration design for the capabilities of the smallest
+XCORE.AI device. Where more input/output is required one can use a slightly
+larger device, such as the TQ128, that brings out twice as much GPIO.
 
-Another sub-section text
+Features
+--------
 
-***********
-Section two
-***********
+A block diagram of the board is shown below:
 
-Section two text
+.. figure:: ../images/block-intro.*
+    :width: 50%
 
-Section two subsection
-======================
+    xcore.ai QF60 Dual Ethernet Board block diagram
 
-Sub section text
+It includes the following features:
 
-Section two subsubsection
--------------------------
+- A: Dual RMII Ethernet PHYs (2x DP83825I)
 
-Sub sub section text
+- B: Dual Ethernet Magnetics & RJ45
 
-Another subsubsection
----------------------
+- C: 192 kHz audio codec (TLV320AIC3204)
 
-Sub sub section text
+- D: 3.5mm line in and out
 
-*******************
+- E: XCORE.AI XU316-1024-QF60B
+
+- F: Quad SPI flash (W25Q16JV)
+
+- G: Debug connector
+
+|newpage|
+
+xCORE Multicore Microcontroller Device
+--------------------------------------
+
+The board is based on a
+two-tile xcore.ai device (XU316-1024-QF60B-C24). Each tile is
+user-programmable, providing eight logical cores with a total of up to 1200
+MIPS compute per tile. The device has an integrated high speed USB
+interface which allows connection to a USB host. The device has a large
+amount of digital IO which are used for interfacing to the on board
+components, spare IOs are wired to expansion headers.
+
+For information on xcore.ai follow this link: <https://www.xmos.ai/xcore-ai/>
+
+.. figure:: ../images/block-xcore-ai.*
+    :width: 60%
+
+    xcore.ai device
+
+Boot
+----
+
+The xcore.ai device boots from an on-board 16 Mbit QSPI FLASH memory
+(W25Q16JV). The FLASH is connected as shown below:
+
+=========== ====== ============== ======================================
+ Pin        Port   Board Net      Description
+=========== ====== ============== ======================================
+X0D01       P1B0   QSPI_CS_N      Quad SPI Boot
+X0D04       P4B0   QSPI_D0        Quad SPI Boot
+X0D05       P4B1   QSPI_D1        Quad SPI Boot
+X0D06       P4B2   QSPI_D2        Quad SPI Boot
+X0D07       P4B3   QSPI_D3        Quad SPI Boot
+X0D10       P1C0   QSPI_CLK       Quad SPI Boot
+=========== ====== ============== ======================================
+
+The XTC tools include the xflash utility for programming compiled programs
+into the flash memory. The flash upgrade images can be reprogrammed at run
+time over USB using the DFU (Device Firmware Upgrade) utilities.
+
+Clocking
+--------
+
+The device is clocked by an integrated low power crystal oscillator block
+using an external 24MHz crystal.
+
+Debug
+-----
+
+The board contains a header for connecting to an XTAG4 debugger for loading
+and debugging programs and programming the on board QSPI flash
+
+Stereo audio input and output
+-----------------------------
+
+A stereo codec (TLV320AIC3204) provides line level input and output. They
+are connected to the xcore as shown below. The ADC registers are accessed
+via the I2C bus on address 0x18. Note that the I2C bus is on Tile 0, and
+that it is shared with the ethernet TX bus. In a production system one
+would not put an XSCOPE link on and instead put I2C on those pins.
+
+=========== ====== ============== ======================================
+ Pin        Port   Board Net      Description
+=========== ====== ============== ======================================
+X0D40       P8D4   SCL            I2C clock
+X0D41       P8D5   SDA            I2C data
+X1D00       P1A0   DAC_DATA       Data to codec
+X1D01       P1B0   LRCK           Left-right clock for codec
+X1D09       P4A3   PERIPH_RST     Reset for all devices
+X1D10       P1C0   BCLK           Bit clock for codec
+X1D11       P1D0   MCLK           Master clock for codec
+X1D34       P1K0   ADC_DATA       Data from codec
+=========== ====== ============== ======================================
+    
+
+Power
+-----
+
+The board is powered by the USB C connector marked "USB/POWER".
+
+Ethernet PHYs
+-------------
+
+There are two RMII Ethernet PHYs on the board (DP83825I), connected to tile 0 as shown
+below:
+
+=========== ====== ============== ======================================
+ Pin        Port   Board Net      Description
+=========== ====== ============== ======================================
+X0D00       P1A0   ETH0_TX_EN     Ethernet 0 transmit enable
+X0D11       P1D0   ETH0_RX_DV     Ethernet 0 data valid
+X0D30       P4F2   ETH0_TX_D0     Ethernet 0 transmit data bit 0
+X0D31       P4F3   ETH0_TX_D1     Ethernet 0 transmit data bit 1
+X0D32       P4E2   ETH0_RX_D0     Ethernet 0 receive data bit 0
+X0D33       P4E3   ETH0_RX_D1     Ethernet 0 receive data bit 1
+X0D35       P1L0   ETH1_TX_EN     Ethernet 1 transmit enable
+X0D36       P1M0   ETH1_RX_DV     Ethernet 1 data valid
+X0D37       P1N0   ETH1_RX_D0     Ethernet 1 receive data bit 0
+X0D38       P1O0   ETH1_RX_D1     Ethernet 1 receive data bit 1
+X0D39       P1P0   ETH_50MHZ      Ethernet 50 MHz clock
+X0D42       P8D6   ETH1_TX_D0     Ethernet 1 transmit data bit 0
+X0D43       P8D7   ETH1_TX_D1     Ethernet 1 transmit data bit 1
+X1D09       P4A3   PERIPH_RST     Reset for all devices
+X1D13       P1F0   MDC            SMI clock
+X1D22       P1G0   MDIO           SMI data
+=========== ====== ============== ======================================
+
+Note that the two devices share a 50 MHz clock, generated by PHY 0, and
+used by PHY 1. Note that the data ports are connected to a variation of
+4-bit, 1-bit, and 8-bit ports. The appropriate and different RMII modules
+need to be used to communicate with the two PHYs.
+
+SMI Control of the PHYs is on the other tile. The addresses are 0x00 for
+Ethernet 0 and 0x01 for Ethernet 1.
+
+
+xcore.ai multichannel audio board port map
+------------------------------------------
+
+The tables below provide a full description of the port-pin-net mappings described throughout this document for the xcore.ai multichannel audio board.
+
+=========== ====== ============== ======================================
+ Pin        Port   Board Net      Description
+=========== ====== ============== ======================================
+X0D00       P1A0   ETH0_TX_EN     Ethernet 0 transmit enable
+X0D01       P1B0   QSPI_CS_N      Quad SPI Boot
+X0D04       P4B0   QSPI_D0        Quad SPI Boot
+X0D05       P4B1   QSPI_D1        Quad SPI Boot
+X0D06       P4B2   QSPI_D2        Quad SPI Boot
+X0D07       P4B3   QSPI_D3        Quad SPI Boot
+X0D10       P1C0   QSPI_CLK       Quad SPI Boot
+X0D11       P1D0   ETH0_RX_DV     Ethernet 0 data valid
+X0D29       P4F1                  N/C
+X0D30       P4F2   ETH0_TX_D0     Ethernet 0 transmit data bit 0
+X0D31       P4F3   ETH0_TX_D1     Ethernet 0 transmit data bit 1
+X0D32       P4E2   ETH0_RX_D0     Ethernet 0 receive data bit 0
+X0D33       P4E3   ETH0_RX_D1     Ethernet 0 receive data bit 1
+X0D35       P1L0   ETH1_TX_EN     Ethernet 1 transmit enable
+X0D36       P1M0   ETH1_RX_DV     Ethernet 1 data valid
+X0D37       P1N0   ETH1_RX_D0     Ethernet 1 receive data bit 0
+X0D38       P1O0   ETH1_RX_D1     Ethernet 1 receive data bit 1
+X0D39       P1P0   ETH_50MHZ      Ethernet 50 MHz clock
+X0D40       P8D4   SCL            I2C clock
+X0D41       P8D5   SDA            I2C data
+X0D42       P8D6   ETH1_TX_D0     Ethernet 1 transmit data bit 0
+X0D43       P8D7   ETH1_TX_D1     Ethernet 1 transmit data bit 1
+X1D00       P1A0   DAC_DATA       Data to codec
+X1D01       P1B0   LRCK           Left-right clock for codec
+X1D09       P4A3   PERIPH_RST     Reset for all devices
+X1D10       P1C0   BCLK           Bit clock for codec
+X1D11       P1D0   MCLK           Master clock for codec
+X1D13       P1F0   MDC            SMI clock
+X1D16       XL0I1  XL_DN1         XSCOPE DEBUG
+X1D17       XL0I0  XL_DN0         XSCOPE DEBUG
+X1D18       XL0O0  XL_UP0         XSCOPE DEBUG
+X1D19       XL0O1  XL_UP1         XSCOPE DEBUG
+X1D22       P1G0   MDIO           SMI data
+X1D34       P1K0   ADC_DATA       Data from codec
+=========== ====== ============== ======================================
+
+
+Board schematics
+----------------
+
+.. figure:: ../images/XMS0026-SCHEMATIC-1V0-A-p1.*
+    :width: 97%
+
+    Dual Ethernet board schematic (1 of 3)
+
+.. figure:: ../images/XMS0026-SCHEMATIC-1V0-A-p2.*
+    :width: 97%
+
+    Dual Ethernet board schematic (2 of 3)
+
+.. figure:: ../images/XMS0026-SCHEMATIC-1V0-A-p3.*
+    :width: 97%
+
+    Dual Ethernet board schematic (3 of 3)
+
+
 Example application
-*******************
+-------------------
+
+We include some sample code that contains just the drivers for the ethernet
+and I2S. As this is a hardware-based app note wiring them up in an
+interesting way is outside the scope of this example.
 
 Building the example
-====================
+++++++++++++++++++++
 
 This section assumes that the `XMOS XTC Tools <https://www.xmos.com/software-tools/>`_ have been
 downloaded and installed. The required version is specified in the accompanying ``README``.
@@ -87,7 +280,7 @@ If ``CMakeLists.txt`` or other build files are modified, ``cmake`` will be re-ru
 by ``xmake`` as needed.
 
 Running the example
-===================
++++++++++++++++++++
 
 From an XTC command prompt, the following command should be run from the ``an02054/app_an02054``
 directory::
@@ -102,9 +295,8 @@ Alternatively, the application can be programmed into flash memory for standalon
 
 .. _further_reading:
 
-***************
 Further reading
-***************
+---------------
 
 * `XMOS` XTC Tools Installation Guide
 
@@ -117,3 +309,5 @@ Further reading
 * `XMOS` application build and dependency management system; `xcommon-cmake`
 
   https://www.xmos.com/file/xcommon-cmake-documentation/?version=latest
+.. _xcore_ai_multichannel_audio_board_hardware_manual:
+

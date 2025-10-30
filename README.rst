@@ -1,30 +1,33 @@
 :orphan:
 
-#######################
-AN0XXXX: Using an XCORE.AI QF60 to make a dual-ethernet device
-#######################
+##############################################################
+AN02054: Using an XCORE.AI QF60 to make a dual-ethernet device
+##############################################################
 
 :vendor: XMOS
 :version: 1.0.0
 :scope: Example
-:description: <BRIEF DESCRIPTION OF APP NOTE>
-:category: <[Voice | Audio | Vision | General Purpose]>
-:keywords: <LIST OF KEYWORDS HERE>
-:hardware: <LIST OF SUPPORTED BOARDS HERE>
+:description: Demonstrates the capability of XCORE.AI-QF60 to drive dual Ethernet
+:category: General Purpose
+:keywords: Ethernet, Audio
+:hardware: 
 
 
 *******
 Summary
 *******
 
-<OVERVIEW OF APP NOTE HERE - DISPLAYED ON APP NOTE LANDING PAGE>
+This app note demonstrates how a small XCORE.AI device (a 6x6mm
+QF60 part) can be used to drive dual 100 Mbit ethernet. This platform
+can be used to, for example, implement redundancy or indeed a limited
+daisy-chain.
 
 ********
 Features
 ********
 
-* Feature 1
-* Feature 1
+* Dual RMII 100 Mbit ethernet
+* Audio CODEC
 
 ************
 Known issues
@@ -42,8 +45,7 @@ Required tools
 Required libraries (dependencies)
 *********************************
 
-* lib_abc
-* lib_def
+* lib_ethernet
 
 *************************
 Related application notes
