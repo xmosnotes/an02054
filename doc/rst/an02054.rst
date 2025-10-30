@@ -54,8 +54,6 @@ It includes the following features:
 
 - G: Debug connector
 
-|newpage|
-
 xCORE Multicore Microcontroller Device
 --------------------------------------
 
@@ -67,12 +65,7 @@ interface which allows connection to a USB host. The device has a large
 amount of digital IO which are used for interfacing to the on board
 components, spare IOs are wired to expansion headers.
 
-For information on xcore.ai follow this link: <https://www.xmos.ai/xcore-ai/>
-
-.. figure:: ../images/block-xcore-ai.*
-    :width: 60%
-
-    xcore.ai device
+For information on xcore.ai follow this link: <https://www.xmos.com/xcore-ai/>
 
 Boot
 ----
@@ -291,10 +284,6 @@ Alternatively, the application can be programmed into flash memory for standalon
 
     xflash ./bin/app_an02054.xe
 
-|newpage|
-
-.. _further_reading:
-
 Further reading
 ---------------
 
@@ -309,5 +298,5 @@ Further reading
 * `XMOS` application build and dependency management system; `xcommon-cmake`
 
   https://www.xmos.com/file/xcommon-cmake-documentation/?version=latest
-.. _xcore_ai_multichannel_audio_board_hardware_manual:
+
 
