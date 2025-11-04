@@ -4,7 +4,7 @@ project(app_an02054)
 
 set(APP_HW_TARGET          XK-EVK-XU316)
 
-set(APP_DEPENDENT_MODULES  "")
+set(APP_DEPENDENT_MODULES  lib_ethernet lib_i2s lib_i2c)
 
 set(APP_COMPILER_FLAGS     -report)
 
