@@ -61,9 +61,7 @@ The board is based on a
 two-tile xcore.ai device (XU316-1024-QF60B-C24). Each tile is
 user-programmable, providing eight logical cores with a total of up to 1200
 MIPS compute per tile. The device has an integrated high speed USB
-interface which allows connection to a USB host. The device has a large
-amount of digital IO which are used for interfacing to the on board
-components, spare IOs are wired to expansion headers.
+interface which allows connection to a USB host.
 
 For information on xcore.ai follow this link: <https://www.xmos.com/xcore-ai/>
 
@@ -164,10 +162,11 @@ SMI Control of the PHYs is on the other tile. The addresses are 0x00 for
 Ethernet 0 and 0x01 for Ethernet 1.
 
 
-xcore.ai multichannel audio board port map
-------------------------------------------
+Port Map
+--------
 
-The tables below provide a full description of the port-pin-net mappings described throughout this document for the xcore.ai multichannel audio board.
+The tables below provide a full description of the port-pin-net mappings
+described throughout this document.
 
 =========== ====== ============== ======================================
  Pin        Port   Board Net      Description
