@@ -3,7 +3,7 @@
 an_number: an02054
 an_number_upper: AN02054
 project: '{{an_number}}'
-title: '{{an_number_upper}}: Using an XCORE.AI QF60 to make a dual-ethernet device'
+title: '{{an_number_upper}}: Reference Design - Dual Ethernet using XCORE.AI QF60'
 version: 1.0.0
 
 documentation:

@@ -1,17 +1,36 @@
-AN02054: Using an XCORE.AI QF60 to make a dual-ethernet device
+AN02054: Reference Design - Dual Ethernet using XCORE.AI QF60
 ==============================================================
 
-This application note describes the design of a board that with a single
-XCORE can control two ethernet PHYs and a codec. The board is shown in
-:numref:`photo`. The purpose of this is to show how a complex system can be
-compressed into a limited number of GPIO pins
+This application note describes the design of a board that uses a single
+XCORE can control two Ethernet PHYs and a codec. The design illustrates
+how a complex system can be compressed into a limited number of GPIO pins.
+
+This reference design 
+has been given the XMOS designation ``XK-ETH-316-DUAL`` in the `XMOS board support
+library  <https://www.xmos.com/file/lib_board_support>`_ and a set of application notes
+that illustrate its use are available from the
+`Networking Application Notes <https://www.xmos.com/application-notes/?category=networking>`_
+area of the XMOS website.
+
+.. TODO: Update link when files are available
+
+A full schematic of the board is provided at the end of this document and
+`CAD design files <https://1m2n3b4v.xmos.com/file/xk-eth-316-dual-pcb-design-files/>`_
+are available for developers to modify and adapt the design for their own use.
+
+
+Board overview
+--------------
+
+The board is shown in
+:numref:`photo`.
 
 .. _photo:
 
 .. figure:: ../images/photo.*
     :width: 80%
 
-    xcore.ai Dual 100 Mbit Ethernet.
+    XK-ETH-316-DUAL - XCORE.AI Dual 100 Mbit/s Ethernet Board
 
 All but one of the pins are being used in this device; stretching the
 capability of the device. Some pins are being shared on ports where it
@@ -26,17 +45,19 @@ to integrate, for example, sensors.
 
 This is a demonstration design for the capabilities of the smallest
 XCORE.AI device. Where more input/output is required one can use a slightly
-larger device, such as the TQ128, that brings out twice as much GPIO.
+larger device, such as the XU316-1024-TQ128, that brings out twice as much GPIO.
+
+|newpage|
 
 Features
 --------
 
-A block diagram of the board is shown below:
+A floor plan of the board is shown below:
 
 .. figure:: ../images/block-intro.*
     :width: 50%
 
-    xcore.ai QF60 Dual Ethernet Board block diagram
+    XK-ETH-316-DUAL - Board layout
 
 It includes the following features:
 
@@ -46,30 +67,30 @@ It includes the following features:
 
 - C: 192 kHz audio codec (TLV320AIC3204)
 
-- D: 3.5mm line in and out
+- D: 3.5 mm line in and out
 
 - E: XCORE.AI XU316-1024-QF60B
 
 - F: Quad SPI flash (W25Q16JV)
 
-- G: Debug connector
+- G: Debug connector (XSYS2)
 
-xCORE Multicore Microcontroller Device
+XCORE Multicore Microcontroller Device
 --------------------------------------
 
 The board is based on a
-two-tile xcore.ai device (XU316-1024-QF60B-C24). Each tile is
+two-tile XCORE.AI device (XU316-1024-QF60B-C24). Each tile is
 user-programmable, providing eight logical cores with a total of up to 1200
 MIPS compute per tile. The device has an integrated high speed USB
 interface which allows connection to a USB host.
 
-For information on xcore.ai follow this link: <https://www.xmos.com/xcore-ai/>
+For information on XCORE.AI follow this link: <https://www.xmos.com/xcore-ai/>
 
 Boot
 ----
 
-The xcore.ai device boots from an on-board 16 Mbit QSPI FLASH memory
-(W25Q16JV). The FLASH is connected as shown below:
+The XCORE.AI device boots from an external 16 Mbit QSPI FLASH memory
+(W25Q16JV) on the board. The flash device is connected as shown below:
 
 =========== ====== ============== ======================================
  Pin        Port   Board Net      Description
@@ -90,19 +111,20 @@ Clocking
 --------
 
 The device is clocked by an integrated low power crystal oscillator block
-using an external 24MHz crystal.
+using an external 24 MHz crystal.
 
 Debug
 -----
 
-The board contains a header for connecting to an XTAG4 debugger for loading
-and debugging programs and programming the on board QSPI flash
+The board contains a XSYS2 header for connecting to an XTAG4 debugger
+for loading and debugging programs and programming the on board QSPI
+flash.
 
 Stereo audio input and output
 -----------------------------
 
 A stereo codec (TLV320AIC3204) provides line level input and output. They
-are connected to the xcore as shown below. The ADC registers are accessed
+are connected to the XCORE as shown below. The ADC registers are accessed
 via the I2C bus on address 0x18. Note that the I2C bus is on Tile 0, and
 that it is shared with the ethernet TX bus. In a production system one
 would not put an XSCOPE link on and instead put I2C on those pins.
@@ -119,18 +141,18 @@ X1D10       P1C0   BCLK           Bit clock for codec
 X1D11       P1D0   MCLK           Master clock for codec
 X1D34       P1K0   ADC_DATA       Data from codec
 =========== ====== ============== ======================================
-    
+
 
 Power
 -----
 
-The board is powered by the USB C connector marked "USB/POWER".
+The board is powered by the USB-C connector marked "USB/POWER".
 
 Ethernet PHYs
 -------------
 
-There are two RMII Ethernet PHYs on the board (DP83825I), connected to tile 0 as shown
-below:
+There are two RMII Ethernet PHYs on the board (DP83825I), connected
+to tile 0 as shown below:
 
 =========== ====== ============== ======================================
  Pin        Port   Board Net      Description
@@ -161,6 +183,7 @@ need to be used to communicate with the two PHYs.
 SMI Control of the PHYs is on the other tile. The addresses are 0x00 for
 Ethernet 0 and 0x01 for Ethernet 1.
 
+|newpage|
 
 Port Map
 --------
@@ -207,6 +230,7 @@ X1D22       P1G0   MDIO           SMI data
 X1D34       P1K0   ADC_DATA       Data from codec
 =========== ====== ============== ======================================
 
+|newpage|
 
 Board schematics
 ----------------
@@ -299,3 +323,13 @@ Further reading
   https://www.xmos.com/file/xcommon-cmake-documentation/?version=latest
 
 
+* Networking Application Notes
+
+  https://www.xmos.com/application-notes/?category=networking
+
+* Altium CAD design files
+
+  https://1m2n3b4v.xmos.com/file/xk-eth-316-dual-pcb-design-files/
+
+
+.. TODO: Update link to live when files are available
