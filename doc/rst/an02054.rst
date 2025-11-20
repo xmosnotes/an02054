@@ -1,21 +1,21 @@
 AN02054: Reference Design - Dual Ethernet using XCORE.AI QF60
 ==============================================================
 
-This application note describes the design of a board that with a single
-XCORE can control two Ethernet PHYs and a codec. The purpose of this is to 
-show how a complex system can be
-compressed into a limited number of GPIO pins
+This application note describes the design of a board that uses a single
+XCORE can control two Ethernet PHYs and a codec. The design illustrates
+how a complex system can be compressed into a limited number of GPIO pins.
 
 This reference design 
-has been given the XMOS designation XK-ETH-316-DUAL in the XMOS board support
-library 
-The application is built using the `XMOS board support
-library  <https://www.xmos.com/file/lib_board_support>`_
-and a set of application notes illustrate its use are available on the 
-XMOS website `Application Notes <https://www.xmos.com/application-notes/?category=networking>`_
+has been given the XMOS designation `XK-ETH-316-DUAL` in the `XMOS board support
+library  <https://www.xmos.com/file/lib_board_support>`_ and a set of application notes
+that illustrate its use are available from the
+`Networking Application Notes <https://www.xmos.com/application-notes/?category=networking>`_
+area of the XMOS website.
+
+.. TODO: Update link when files are available
 
 A full schematic of the board is provided at the end of this document and
- `CAD design files <https://www.xmos.com/file/xk-eth-316-dual-design-files>`_
+`CAD design files <https://1m2n3b4v.xmos.com/file/xk-eth-316-dual-pcb-design-files/>`_
 are available for developers to modify and adapt the design for their own use.
 
 
@@ -23,14 +23,14 @@ Board overview
 --------------
 
 The board is shown in
-:numref:`photo`. 
+:numref:`photo`.
 
 .. _photo:
 
 .. figure:: ../images/photo.*
     :width: 80%
 
-    XCORE.AI Dual 100 Mbit/s Ethernet Board
+    XK-ETH-316-DUAL - XCORE.AI Dual 100 Mbit/s Ethernet Board
 
 All but one of the pins are being used in this device; stretching the
 capability of the device. Some pins are being shared on ports where it
@@ -45,17 +45,19 @@ to integrate, for example, sensors.
 
 This is a demonstration design for the capabilities of the smallest
 XCORE.AI device. Where more input/output is required one can use a slightly
-larger device, such as the TQ128, that brings out twice as much GPIO.
+larger device, such as the XU316-1024-TQ128, that brings out twice as much GPIO.
+
+|newpage|
 
 Features
 --------
 
-A block diagram of the board is shown below:
+A floor plan of the board is shown below:
 
 .. figure:: ../images/block-intro.*
     :width: 50%
 
-    XCORE.AI QF60 Dual Ethernet Board block diagram
+    XK-ETH-316-DUAL - Board layout
 
 It includes the following features:
 
@@ -181,6 +183,7 @@ need to be used to communicate with the two PHYs.
 SMI Control of the PHYs is on the other tile. The addresses are 0x00 for
 Ethernet 0 and 0x01 for Ethernet 1.
 
+|newpage|
 
 Port Map
 --------
@@ -227,6 +230,7 @@ X1D22       P1G0   MDIO           SMI data
 X1D34       P1K0   ADC_DATA       Data from codec
 =========== ====== ============== ======================================
 
+|newpage|
 
 Board schematics
 ----------------
@@ -321,11 +325,11 @@ Further reading
 
 * Networking Application Notes
 
-  <https://www.xmos.com/application-notes/?category=networking
+  https://www.xmos.com/application-notes/?category=networking
 
 * Altium CAD design files
 
-  https://www.xmos.com/file/xk-eth-316-dual-design-files>`_
+  https://1m2n3b4v.xmos.com/file/xk-eth-316-dual-pcb-design-files/
 
 
-
+.. TODO: Update link to live when files are available
