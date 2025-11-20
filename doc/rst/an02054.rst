@@ -1,10 +1,29 @@
-AN02054: Using an XCORE.AI QF60 to make a dual-Ethernet device
+AN02054: Reference Design - Dual Ethernet using XCORE.AI QF60
 ==============================================================
 
 This application note describes the design of a board that with a single
-XCORE can control two Ethernet PHYs and a codec. The board is shown in
-:numref:`photo`. The purpose of this is to show how a complex system can be
+XCORE can control two Ethernet PHYs and a codec. The purpose of this is to 
+show how a complex system can be
 compressed into a limited number of GPIO pins
+
+This reference design 
+has been given the XMOS designation XK-ETH-316-DUAL in the XMOS board support
+library 
+The application is built using the `XMOS board support
+library  <https://www.xmos.com/file/lib_board_support>`_
+and a set of application notes illustrate its use are available on the 
+XMOS website `Application Notes <https://www.xmos.com/application-notes/?category=networking>`_
+
+A full schematic of the board is provided at the end of this document and
+ `CAD design files <https://www.xmos.com/file/xk-eth-316-dual-design-files>`_
+are available for developers to modify and adapt the design for their own use.
+
+
+Board overview
+--------------
+
+The board is shown in
+:numref:`photo`. 
 
 .. _photo:
 
@@ -298,5 +317,15 @@ Further reading
 * `XMOS` application build and dependency management system; `xcommon-cmake`
 
   https://www.xmos.com/file/xcommon-cmake-documentation/?version=latest
+
+
+* Networking Application Notes
+
+  <https://www.xmos.com/application-notes/?category=networking
+
+* Altium CAD design files
+
+  https://www.xmos.com/file/xk-eth-316-dual-design-files>`_
+
 
 
