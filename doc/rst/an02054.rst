@@ -6,7 +6,7 @@ XCORE can control two Ethernet PHYs and a codec. The design illustrates
 how a complex system can be compressed into a limited number of GPIO pins.
 
 This reference design 
-has been given the XMOS designation `XK-ETH-316-DUAL` in the `XMOS board support
+has been given the XMOS designation ``XK-ETH-316-DUAL`` in the `XMOS board support
 library  <https://www.xmos.com/file/lib_board_support>`_ and a set of application notes
 that illustrate its use are available from the
 `Networking Application Notes <https://www.xmos.com/application-notes/?category=networking>`_
